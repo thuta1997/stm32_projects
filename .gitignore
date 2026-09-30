@@ -1,1 +1,12 @@
 .metadata/
+
+# STM32CubeIDE generated build folder
+Debug/
+Release/
+
+# Eclipse metadata
+.metadata/
+
+# OS files
+.DS_Store
+Thumbs.db
