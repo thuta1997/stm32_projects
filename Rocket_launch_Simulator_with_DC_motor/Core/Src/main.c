@@ -114,10 +114,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   HAL_UART_Receive_IT(&huart1, &rx_data, 1);
-  HAL_TIM_PWM_Start(&htim3, door1PWM_Pin);
-  HAL_TIM_PWM_Start(&htim3, door2PWM_Pin);
-  HAL_TIM_PWM_Start(&htim3, door3PWM_Pin);
-  HAL_TIM_PWM_Start(&htim3, door4PWM_Pin);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
 
   /* USER CODE END 2 */
 
@@ -173,11 +173,12 @@ int main(void)
 
 	 	   	   case STATE_LAUNCH:
 	 	   		   send_state_uart("LAUNCH");
-	 	   		   send_state_uart("S7_ON");
 	 	   		   HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
-	 	   		   HAL_Delay(2000);
+	 	   		   HAL_Delay(1000);
 	 	   		   HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
-	 	   		   send_cmd_uart("START");
+	 	   		   HAL_GPIO_WritePin(event_signal_GPIO_Port,event_signal_Pin,GPIO_PIN_SET);//Launch event signal is start
+	 	   		   HAL_Delay(1000);
+	 	   		   HAL_GPIO_WritePin(event_signal_GPIO_Port,event_signal_Pin,GPIO_PIN_RESET);
 	 	   		   for(;;){
 	 	   			if(cmd_receive==1){
 	 	   				cmd_receive=0;
@@ -440,7 +441,7 @@ static void MX_GPIO_Init(void)
                           |m2F_Pin|m1R_Pin|m1F_Pin|m8F_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|m3F_Pin|m2R_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|event_signal_Pin|m3F_Pin|m2R_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, m4F_Pin|m3R_Pin|m5R_Pin|m5F_Pin
@@ -476,6 +477,19 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : Done_signal_Pin */
+  GPIO_InitStruct.Pin = Done_signal_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(Done_signal_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : event_signal_Pin */
+  GPIO_InitStruct.Pin = event_signal_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(event_signal_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : sensor1_Pin sensor2_Pin sensor3_Pin */
   GPIO_InitStruct.Pin = sensor1_Pin|sensor2_Pin|sensor3_Pin;
@@ -559,6 +573,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     	   current_state = STATE_DOOR1_OPEN;
     	  }
     }
+    if(GPIO_Pin == Done_signal_Pin)
+        {
+        	if(current_state == STATE_LAUNCH)
+        	  {
+        		cmd_receive = 1;
+        	  }
+        }
 
 }
 

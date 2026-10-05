@@ -89,6 +89,9 @@ void Error_Handler(void);
 #define door4PWM_GPIO_Port GPIOB
 #define m4F_Pin GPIO_PIN_2
 #define m4F_GPIO_Port GPIOB
+#define Done_signal_Pin GPIO_PIN_10
+#define Done_signal_GPIO_Port GPIOB
+#define Done_signal_EXTI_IRQn EXTI15_10_IRQn
 #define m3R_Pin GPIO_PIN_12
 #define m3R_GPIO_Port GPIOB
 #define m5R_Pin GPIO_PIN_13
@@ -103,6 +106,8 @@ void Error_Handler(void);
 #define m1F_GPIO_Port GPIOC
 #define m8F_Pin GPIO_PIN_9
 #define m8F_GPIO_Port GPIOC
+#define event_signal_Pin GPIO_PIN_8
+#define event_signal_GPIO_Port GPIOA
 #define Tx_MCU_Pin GPIO_PIN_9
 #define Tx_MCU_GPIO_Port GPIOA
 #define Rx_MCU_Pin GPIO_PIN_10
