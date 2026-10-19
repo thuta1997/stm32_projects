@@ -81,6 +81,8 @@ void Error_Handler(void);
 #define door1PWM_GPIO_Port GPIOA
 #define door2PWM_Pin GPIO_PIN_7
 #define door2PWM_GPIO_Port GPIOA
+#define start_button_Pin GPIO_PIN_4
+#define start_button_GPIO_Port GPIOC
 #define m2F_Pin GPIO_PIN_5
 #define m2F_GPIO_Port GPIOC
 #define door3PWM_Pin GPIO_PIN_0
@@ -102,6 +104,8 @@ void Error_Handler(void);
 #define m4R_GPIO_Port GPIOB
 #define m1R_Pin GPIO_PIN_6
 #define m1R_GPIO_Port GPIOC
+#define sensor7_Pin GPIO_PIN_7
+#define sensor7_GPIO_Port GPIOC
 #define m1F_Pin GPIO_PIN_8
 #define m1F_GPIO_Port GPIOC
 #define m8F_Pin GPIO_PIN_9
@@ -130,6 +134,12 @@ void Error_Handler(void);
 #define sensor4_GPIO_Port GPIOD
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
+#define sensor5_Pin GPIO_PIN_4
+#define sensor5_GPIO_Port GPIOB
+#define sensor6_Pin GPIO_PIN_5
+#define sensor6_GPIO_Port GPIOB
+#define sensor8_Pin GPIO_PIN_6
+#define sensor8_GPIO_Port GPIOB
 #define m8R_Pin GPIO_PIN_8
 #define m8R_GPIO_Port GPIOB
 

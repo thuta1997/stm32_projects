@@ -128,11 +128,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	if(HAL_GPIO_ReadPin(start_button_GPIO_Port, start_button_Pin)== GPIO_PIN_SET){
 	  switch(current_state)
 	      {
 	 	   	   case STATE_IDLE:
+
 	 	   		   break;
 	 	   	   case STATE_HOME:
+
 	 	   		   break;
 
 	 	   	   case STATE_DOOR1_OPEN:
@@ -231,6 +234,7 @@ int main(void)
 	 	   	   case STATE_EMERGENCY:
 	 	   		   break;
 	      }
+       }
   }
   /* USER CODE END 3 */
 }
@@ -469,6 +473,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : start_button_Pin */
+  GPIO_InitStruct.Pin = start_button_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(start_button_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pins : m4F_Pin m3R_Pin m5R_Pin m5F_Pin
                            m4R_Pin m8R_Pin */
   GPIO_InitStruct.Pin = m4F_Pin|m3R_Pin|m5R_Pin|m5F_Pin
@@ -484,6 +494,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(Done_signal_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : sensor7_Pin sensor1_Pin sensor2_Pin sensor3_Pin */
+  GPIO_InitStruct.Pin = sensor7_Pin|sensor1_Pin|sensor2_Pin|sensor3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
   /*Configure GPIO pin : event_signal_Pin */
   GPIO_InitStruct.Pin = event_signal_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -491,17 +507,17 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(event_signal_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : sensor1_Pin sensor2_Pin sensor3_Pin */
-  GPIO_InitStruct.Pin = sensor1_Pin|sensor2_Pin|sensor3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
   /*Configure GPIO pin : sensor4_Pin */
   GPIO_InitStruct.Pin = sensor4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(sensor4_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : sensor5_Pin sensor6_Pin sensor8_Pin */
+  GPIO_InitStruct.Pin = sensor5_Pin|sensor6_Pin|sensor8_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);

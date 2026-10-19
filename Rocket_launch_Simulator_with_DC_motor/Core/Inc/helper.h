@@ -21,5 +21,5 @@ void door_Open(DoorNumber number, MotorNumber m1, MotorNumber m2, uint16_t speed
 void door_Close(DoorNumber number, MotorNumber m1, MotorNumber m2, uint16_t speed);
 void send_state_uart(char *state);
 void send_cmd_uart(char *cmd);
-
+void home_state(void);
 #endif /* INC_HELPER_H_ */
