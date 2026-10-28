@@ -128,7 +128,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	if(HAL_GPIO_ReadPin(start_button_GPIO_Port, start_button_Pin)== GPIO_PIN_SET){
+	//if(HAL_GPIO_ReadPin(startButton_GPIO_Port, startButton_Pin)== GPIO_PIN_SET){
 	  switch(current_state)
 	      {
 	 	   	   case STATE_IDLE:
@@ -234,7 +234,7 @@ int main(void)
 	 	   	   case STATE_EMERGENCY:
 	 	   		   break;
 	      }
-       }
+       //}
   }
   /* USER CODE END 3 */
 }
@@ -473,11 +473,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : start_button_Pin */
-  GPIO_InitStruct.Pin = start_button_Pin;
+  /*Configure GPIO pins : sensor7_Pin sensor1_Pin sensor2_Pin sensor3_Pin */
+  GPIO_InitStruct.Pin = sensor7_Pin|sensor1_Pin|sensor2_Pin|sensor3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(start_button_GPIO_Port, &GPIO_InitStruct);
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : m4F_Pin m3R_Pin m5R_Pin m5F_Pin
                            m4R_Pin m8R_Pin */
@@ -493,12 +493,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(Done_signal_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : sensor7_Pin sensor1_Pin sensor2_Pin sensor3_Pin */
-  GPIO_InitStruct.Pin = sensor7_Pin|sensor1_Pin|sensor2_Pin|sensor3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : event_signal_Pin */
   GPIO_InitStruct.Pin = event_signal_Pin;
@@ -518,6 +512,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : startButton_Pin */
+  GPIO_InitStruct.Pin = startButton_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(startButton_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);

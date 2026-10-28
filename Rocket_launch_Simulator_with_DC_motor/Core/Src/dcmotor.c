@@ -15,10 +15,10 @@ void set_PWM(DoorNumber door_number,uint16_t speed){
 		  __HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_2,speed);
 		  break;
 	  case Door3:
-		  __HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_3,speed);
+		  __HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_4,speed);
 		  break;
 	  case Door4:
-		  __HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_4,speed);
+		  __HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_3,speed);
 		  break;
 	  default:
 		  break;
