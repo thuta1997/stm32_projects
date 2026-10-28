@@ -72,6 +72,7 @@ static void MX_USART1_UART_Init(void);
 void finish_state(SystemState next_state);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
+void homming(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -118,7 +119,8 @@ int main(void)
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
-
+  //homming
+  homming();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -548,7 +550,14 @@ void process_uart_command(char *receive)
     }
 }
 
-
+void homming(void){
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
+	door_Close(Door4,M8,M7,35535);
+	door_Close(Door3,M6,M5,35535);
+	door_Close(Door2,M4,M3,35535);
+	door_Close(Door1,M2,M1,35535);
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
+}
 //UART call back
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
