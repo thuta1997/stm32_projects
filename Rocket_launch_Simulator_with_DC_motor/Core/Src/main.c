@@ -72,6 +72,7 @@ static void MX_USART1_UART_Init(void);
 void finish_state(SystemState next_state);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
+void process_uart_command(char *cmd);
 void homming(void);
 /* USER CODE END PFP */
 
@@ -540,15 +541,78 @@ void finish_state(SystemState next_state)
 }
 
 //uart_command handling
-void process_uart_command(char *receive)
+void process_uart_command(char *cmd)
 {
-	send_state_uart(receive);
-    if(strcmp(receive, "DONE") == 0)
+
+    if(strcmp(cmd, "DOOR1_OPEN") == 0)
     {
-    	cmd_receive = 1;
-    	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+    	auto_mode = 0;
+        current_state = STATE_DOOR1_OPEN;
+    }
+    else if(strcmp(cmd, "START") == 0)
+        {
+    		if(current_state == STATE_IDLE ||
+    		           current_state == STATE_EMERGENCY)
+    		        {
+    		            emergency_flag = 0;
+    		            auto_mode = 1;
+    		            current_state = STATE_DOOR1_OPEN;
+    		        }
+        }
+    else if(strcmp(cmd, "HOME") == 0)
+            {
+    			auto_mode = 0;
+    	        current_state = STATE_HOME;
+            }
+    else if(strcmp(cmd, "DOOR1_CLOSE") == 0)
+    {
+    	auto_mode = 0;
+        current_state = STATE_DOOR1_CLOSE;
+    }
+
+    else if(strcmp(cmd, "DOOR2_OPEN") == 0)
+    {
+    	auto_mode = 0;
+        current_state = STATE_DOOR2_OPEN;
+    }
+
+    else if(strcmp(cmd, "DOOR2_CLOSE") == 0)
+    {
+    	auto_mode = 0;
+        current_state = STATE_DOOR2_CLOSE;
+    }
+
+    else if(strcmp(cmd, "DOOR3_OPEN") == 0)
+    {
+    	auto_mode = 0;
+        current_state = STATE_DOOR3_OPEN;
+    }
+
+    else if(strcmp(cmd, "DOOR3_CLOSE") == 0)
+    {
+    	auto_mode = 0;
+        current_state = STATE_DOOR3_CLOSE;
+    }
+
+    else if(strcmp(cmd, "LAUNCH") == 0)
+    {
+    	auto_mode = 0;
+        current_state = STATE_LAUNCH;
+    }
+
+    else if(strcmp(cmd, "EMERGENCY") == 0)
+    {
+    	auto_mode = 0;
+    	emergency_flag = 1;
+    }
+    else if(strcmp(cmd, "RESET") == 0)
+    {
+    	auto_mode = 0;
+        emergency_flag = 0;
+        current_state = STATE_IDLE;
     }
 }
+
 
 void homming(void){
 	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
@@ -561,9 +625,9 @@ void homming(void){
 //UART call back
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    if (huart->Instance == USART1)
+    if (huart->Instance == USART2)
     {
-        HAL_UART_Transmit(&huart2, &rx_data, 1, 10);
+
         if(rx_data == '\n')
         {
             rx_buffer[rx_index] = '\0';
@@ -582,7 +646,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                 rx_index = 0;
             }
         }
-        HAL_UART_Receive_IT(&huart1, &rx_data, 1);
+        HAL_UART_Receive_IT(&huart2, &rx_data, 1);
     }
 }
 
